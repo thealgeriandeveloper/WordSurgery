@@ -292,14 +292,22 @@ const GameScreen: React.FC<GameScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.scoreText}>Score : {score}</Text>
-      <Text style={styles.timerText}>⏱️ Temps : {timeLeft}s</Text>
+      <View style={styles.topBar}>
+        <Text style={styles.timerText}>⏱️ {timeLeft}s</Text>
+        <Text style={styles.scoreText}>🏆 {score}</Text>
+      </View>
       <TouchableOpacity style={styles.undoButton} onPress={undo}>
         <Text style={styles.undoText}>
           ↩️ {currentLanguage === "fr" ? "Annuler" : "Undo"}
         </Text>
       </TouchableOpacity>
-      <Text style={styles.label}>Zone 1 (Mot 1)</Text>
+      <View style={styles.zoneTitle}>
+        <Text style={styles.zoneText}>
+          {currentLanguage === "fr"
+            ? "Bloc opératoire : pièces à greffer"
+            : "Operating room: parts to graft"}
+        </Text>
+      </View>
       <View style={styles.wordRow}>
         {word1.split("").map((letter, index) => (
           <TouchableOpacity
@@ -314,7 +322,13 @@ const GameScreen: React.FC<GameScreenProps> = ({
           </TouchableOpacity>
         ))}
       </View>
-      <Text style={styles.label}>Zone 2 (Mot 2)</Text>
+      <View style={styles.zoneTitle}>
+        <Text style={styles.zoneText}>
+          {currentLanguage === "fr"
+            ? "Mot à opérer"
+            : "Word under operation"}
+        </Text>
+      </View>
       <View style={styles.wordRow}>
         {Array(word2.length + 1)
           .fill(0)
@@ -418,16 +432,64 @@ const GameScreen: React.FC<GameScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  scoreText: { fontSize: 22, fontWeight: "bold", color: "#2E2E2E" },
-  timerText: { fontSize: 20, color: "#333", marginBottom: 10 },
-  undoButton: {
-    backgroundColor: "#ccc",
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 6,
-    marginBottom: 10,
+  scoreText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#2E2E2E",
   },
-  undoText: { fontSize: 16, fontWeight: "bold" },
+  timerText: {
+    fontSize: 20,
+    color: "#2E2E2E",
+  },
+  undoButton: {
+    position: "absolute",
+    bottom: 30,
+    left: 20,
+    backgroundColor: "#ccc",
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 40,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  topBar: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    right: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  zoneTitle: {
+    backgroundColor: "#fff",
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "#333",
+    marginTop: 30,
+    marginBottom: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  zoneText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+  },
+  undoText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   insertSlot: {
     width: 10,
     height: 40,
@@ -496,10 +558,18 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 20,
     zIndex: 10,
+    backgroundColor: "#fff", // fond blanc
+    borderRadius: 40,
+    padding: 10,
+    elevation: 5, // ombre Android
+    shadowColor: "#000", // ombre iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
   },
   modalOverlay: {
     flex: 1,

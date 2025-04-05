@@ -90,13 +90,22 @@ const GameScreen: React.FC<GameScreenProps> = ({
     }
 
     const index1 = Math.floor(Math.random() * dictionary.length);
-    let index2 = Math.floor(Math.random() * dictionary.length);
-    while (index2 === index1) {
-      index2 = Math.floor(Math.random() * dictionary.length);
+    const filtered = dictionary.filter((word) => word.length <= 6);
+
+    if (filtered.length === 0) {
+      console.warn(
+        "Aucun mot de 6 lettres ou moins trouvé dans le dictionnaire."
+      );
+      setWord1("ERROR");
+      setWord2("WORD");
+      setIsLoading(false);
+      return;
     }
 
+    let index2 = Math.floor(Math.random() * filtered.length);
+
     setWord1(dictionary[index1].toUpperCase());
-    setWord2(dictionary[index2].toUpperCase());
+    setWord2(filtered[index2].toUpperCase());
     setIsLoading(false);
   };
 

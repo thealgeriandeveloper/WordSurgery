@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -17,7 +17,7 @@ interface HomeScreenProps {
   onLanguage: () => void;
   currentLanguage: "fr" | "en";
   onDictionaryLoaded: (words: string[]) => void;
-  setLanguage: (lang: "fr" | "en") => void; // 👈 très important
+  setLanguage: (lang: "fr" | "en") => void;
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -29,6 +29,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [urlInput, setUrlInput] = useState("");
+  const [isReady, setIsReady] = useState(false); // 👈 pour synchroniser l’affichage
+
+  useEffect(() => {
+    const preload = setTimeout(() => {
+      setIsReady(true);
+    }, 150); // petit délai de synchro
+
+    return () => clearTimeout(preload);
+  }, []);
 
   const getStartButtonImage = () => {
     return currentLanguage === "fr"
@@ -82,12 +91,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
 
       Alert.alert("Success", "Dictionary loaded successfully!");
 
-      // 🔁 Attendre légèrement avant de changer la langue
       setTimeout(() => {
         if (currentLanguage === "fr") {
           setLanguage("en");
         }
-      }, 200); // ← petit délai de 200ms
+      }, 200);
     } catch (error) {
       Alert.alert(
         currentLanguage === "fr" ? "Erreur" : "Error",
@@ -97,6 +105,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
       );
     }
   };
+
+  if (!isReady) {
+    return (
+      <View style={styles.splashContainer}>
+        <Text style={styles.splashText}>
+          {currentLanguage === "fr" ? "Chargement..." : "Loading..."}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ImageBackground
@@ -137,7 +155,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
         </Text>
       </View>
 
-      {/* Modale */}
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
@@ -228,6 +245,17 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  splashContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F2E7C9",
+  },
+  splashText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#444",
   },
 });
 

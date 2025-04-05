@@ -324,30 +324,27 @@ const GameScreen: React.FC<GameScreenProps> = ({
       </View>
       <View style={styles.zoneTitle}>
         <Text style={styles.zoneText}>
-          {currentLanguage === "fr"
-            ? "Mot à opérer"
-            : "Word under operation"}
+          {currentLanguage === "fr" ? "Mot à opérer" : "Word under operation"}
         </Text>
       </View>
       <View style={styles.wordRow}>
         {Array(word2.length + 1)
           .fill(0)
           .map((_, i) => (
-            <TouchableOpacity
-              key={`insert-${i}`}
-              style={styles.insertSlot}
-              onPress={() => handleInsertAt(i)}
-            >
-              <View style={styles.insertIndicator} />
-            </TouchableOpacity>
+            <React.Fragment key={i}>
+              <TouchableOpacity
+                style={styles.insertSlot}
+                onPress={() => handleInsertAt(i)}
+              >
+                <View style={styles.insertIndicator} />
+              </TouchableOpacity>
+              {i < word2.length && (
+                <View style={styles.letterBox}>
+                  <Text style={styles.letter}>{word2[i]}</Text>
+                </View>
+              )}
+            </React.Fragment>
           ))}
-      </View>
-      <View style={styles.wordRow}>
-        {word2.split("").map((letter, index) => (
-          <View key={index} style={styles.letterBox}>
-            <Text style={styles.letter}>{letter}</Text>
-          </View>
-        ))}
       </View>
 
       <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>

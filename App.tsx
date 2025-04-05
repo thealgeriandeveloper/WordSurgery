@@ -82,6 +82,10 @@ const App: React.FC = () => {
           onStart={() => setCurrentScreen("game")}
           onLanguage={toggleLanguage}
           currentLanguage={language}
+          onDictionaryLoaded={(words) => {
+            setDictionary(words);
+          }}
+          setLanguage={setLanguage} // 👈 ajoute ceci !
         />
       )}
       {currentScreen === "game" && dictionary.length >= 2 && (

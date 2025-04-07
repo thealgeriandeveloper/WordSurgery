@@ -29,12 +29,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [urlInput, setUrlInput] = useState("");
-  const [isReady, setIsReady] = useState(false); // 👈 pour synchroniser l’affichage
+  const [isReady, setIsReady] = useState(false); 
 
   useEffect(() => {
     const preload = setTimeout(() => {
       setIsReady(true);
-    }, 150); // petit délai de synchro
+    }, 150); 
 
     return () => clearTimeout(preload);
   }, []);

@@ -1,4 +1,3 @@
-// screens/GameScreen.tsx
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -28,7 +27,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
   currentLanguage,
 }) => {
   const triggerDefeat = () => {
-    console.log("💀 Défaite déclenchée !");
     setShowDefeat(true);
     setWord1(" ");
     setWord2(" ");
@@ -74,7 +72,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     const id = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          clearInterval(id); // 🛑 ici on arrête directement ce timer
+          clearInterval(id); 
           triggerDefeat();
           return 0;
         }
@@ -82,7 +80,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
       });
     }, 1000);
 
-    setTimerId(id); // stocké si tu veux plus tard
+    setTimerId(id); 
 
     if (dictionary.length < 2) {
       setIsLoading(false);
@@ -121,35 +119,30 @@ const GameScreen: React.FC<GameScreenProps> = ({
       .split("")
       .filter((_, i) => !selectedIndices.includes(i));
     const newWord1 = newWord1Array.join("");
-    console.log("newWord1:", newWord1);
 
     let insertionStartIndex = index;
     let insertedIndices: number[] = [];
     for (let i = 0; i < selectedLetters.length; i++) {
-      insertedIndices.push(index + i); // index = position d’insertion
+      insertedIndices.push(index + i); 
     }
 
     let [newWord2, gainedPoints] = detectAndRemoveValidWords(
       updatedWord2,
       insertedIndices
     );
-    console.log("newWord2:", newWord2);
 
     setScore((prev) => prev + gainedPoints);
     if (gainedPoints > 0) {
       setTimeLeft((prev) => Math.min(prev + gainedPoints * 5, 120));
     }
 
-    // ✅ VICTOIRE ?
     if (newWord2.length === 0) {
       setShowVictory(true);
       if (timerId) clearInterval(timerId);
       return;
     }
 
-    // ✅ DÉFAITE ? (mot 1 vidé, mot 2 non vide)
     if (newWord1.length === 0 && newWord2.length > 0) {
-      console.log("🟥 DEFAITE DÉCLENCHÉE");
       setWord1(" ");
       setWord2(" ");
       setShowDefeat(true);
@@ -157,11 +150,9 @@ const GameScreen: React.FC<GameScreenProps> = ({
       return;
     }
 
-    // Mise à jour des états
     setWord1(newWord1);
     setWord2(newWord2);
     setSelectedIndices([]);
-    //checkIfNoMoreMoves();
   };
 
   const detectAndRemoveValidWords = (
@@ -171,7 +162,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
     const foundRanges: [number, number][] = [];
     let points = 0;
 
-    // Créer une carte d’origine : "mot1" ou null
     const originMap = updatedWord2
       .split("")
       .map((_, i) => (insertedIndices.includes(i) ? "mot1" : null));
@@ -231,7 +221,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
       }
     }
 
-    // ✅ Ajout de ta logique personnalisée
     if (word1.length === 0 && word2.length > 0) {
       setShowDefeat(true);
       if (timerId) clearInterval(timerId);
@@ -519,7 +508,7 @@ const styles = StyleSheet.create({
   },
 
   selectedLetterBox: {
-    backgroundColor: "#FFD700", // jaune
+    backgroundColor: "#FFD700", 
     borderColor: "#DAA520",
   },
 
@@ -555,11 +544,11 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 20,
     zIndex: 10,
-    backgroundColor: "#fff", // fond blanc
+    backgroundColor: "#fff", 
     borderRadius: 40,
     padding: 10,
-    elevation: 5, // ombre Android
-    shadowColor: "#000", // ombre iOS
+    elevation: 5, 
+    shadowColor: "#000", 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,

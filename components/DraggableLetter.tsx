@@ -25,7 +25,7 @@ const DraggableLetter: React.FC<DraggableLetterProps> = ({
 const styles = StyleSheet.create({
   draggable: {
     position: "absolute",
-    top: 250, // Position initiale (à ajuster selon le layout)
+    top: 250, 
     left: 40,
     padding: 10,
     backgroundColor: "#FFF5BB",

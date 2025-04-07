@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView, StyleSheet, Platform } from "react-native";
 import { Audio } from "expo-av";
@@ -85,7 +84,7 @@ const App: React.FC = () => {
           onDictionaryLoaded={(words) => {
             setDictionary(words);
           }}
-          setLanguage={setLanguage} // 👈 ajoute ceci !
+          setLanguage={setLanguage} 
         />
       )}
       {currentScreen === "game" && dictionary.length >= 2 && (

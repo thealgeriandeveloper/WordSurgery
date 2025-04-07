@@ -16,7 +16,7 @@ const BottomWord: React.FC<BottomWordProps> = ({ word }) => {
 const styles = StyleSheet.create({
   container: {
     width: "90%",
-    minHeight: 150, // Zone agrandie pour le drop
+    minHeight: 150,
     borderWidth: 2,
     borderColor: "#888",
     padding: 20,
